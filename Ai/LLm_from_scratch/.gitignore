@@ -125,4 +125,10 @@ Thumbs.db
 # Project specific
 *.txt
 !requirements.txt
-!README.txt 
+!README.txt
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.sql 
