@@ -1,0 +1,158 @@
+
+
+// Online C++ compiler to run C++ program online
+// Online C++ compiler to run C++ program online
+
+//https://leetcode.com/problems/next-permutation/submissions/1567004150/
+#include <iostream>
+#include <vector>
+#include <algorithm> 
+
+using namespace std;
+
+class Solution {
+  public:
+    void nextPermutation(vector<int>& arr) {
+        if(this->is_desc(arr)){
+            reverse(arr.begin(),arr.end());
+        }
+        if(this->is_asc(arr)){
+            arr=swap(arr,arr.size()-1,arr.size()-2);
+        }
+        
+        int min_index;
+        int pivot_index=this->pivot_index(arr);
+        if(pivot_index==-1){
+            return;
+        }
+        vector<int> slice=this->slice(arr,pivot_index+1,arr.size());
+        min_index=this->min_index(slice)+pivot_index+1;
+        
+        arr=this->swap(arr,min_index,pivot_index);
+        vector<int> to_sort=this->slice(arr,pivot_index+1,arr.size());
+        sort(to_sort.begin(),to_sort.end());
+        for(int i=pivot_index+1 ;i<arr.size();i++){
+            arr[i]=to_sort[i-pivot_index-1];
+            
+        }
+        
+        
+    }
+    
+    int min_index(vector<int>arr){
+        int min_index=0;
+        for(int i=0;i<arr.size();i++){
+            if (arr[i]<arr[min_index]){
+                min_index=i;
+            }
+        }
+        return min_index;
+    }
+    
+    bool is_asc(vector<int>arr){
+         for(int i=0 ; i<arr.size();i++){
+            if (arr[i+1]<arr[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    vector<int> swap(vector<int>arr,int f ,int s){
+        int temp;
+        temp=arr[f];
+        arr[f]=arr[s];
+        arr[s]=temp;
+        return arr;
+    }
+    
+    int get_max(vector<int> arr){
+        int max=arr[0];
+        for (int i =0 ;i<arr.size();i++){
+            if (arr[i] > max){
+                max=arr[i];
+            }
+        }
+        return max;
+    }
+    bool is_desc(vector<int>& arr){
+        for (int i=0;i<arr.size()-1;i++){
+            if (arr[i+1]>arr[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool is_acs(vector<int>arr){
+         for (int i=0;i<arr.size()-1;i++){
+            if (arr[i+1]<arr[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    vector<int> slice(vector<int>& arr ,int start_index ,int end_index){
+        vector<int> result;
+        for (int i = start_index ;i<arr.size();i++ ){
+            if (i==end_index){
+                break;
+            }
+            result.push_back(arr[i]);
+        }
+        return result;
+    }
+    
+    int pivot_index(vector<int> arr){
+        vector<int> slice =this->slice(arr,1,arr.size()) ;
+        for (int i =1 ; i<arr.size();i++){
+            if (this->is_desc(slice)){
+                return i-1;
+            }
+            slice=this->slice(arr,i+1,arr.size());
+        }
+        return -1;
+      
+        
+    }
+    
+    
+    int get_index_next_greater_number(int number,vector<int> arr,int pivot_ind){
+        vector<int> temp=this->slice(arr,pivot_ind+1,arr.size());
+        
+        int greater=this->get_max(temp);
+        cout<<"max Number "<<greater<<endl;
+        int index;
+        for (int i=pivot_ind;i<arr.size();i++ ){
+            if ((arr[i]>number)&&(arr[i]<greater)){
+                greater=arr[i];
+                index=i;
+            }
+        }
+        return index;
+    }
+};
+
+
+int main() {
+    // Write C++ code here
+    std::cout << "Program start ####"<<endl;
+    Solution sol;
+    vector<int> vec={1,2,3,6,5,4};
+    int pivot=sol.pivot_index(vec);
+    vector<int> slice=sol.slice(vec,3,vec.size());
+    int min_index=sol.min_index(slice);
+    cout<<"the Pivot index"<<pivot<<endl;
+    cout<<"the Pivot index"<<min_index+pivot<<endl;
+
+    
+    
+    int next_greater=sol.get_index_next_greater_number(0,vec,2);
+    sol.nextPermutation(vec);
+    //cout<<next_greater<<endl;
+    for (int i =0;i<vec.size();i++){
+        cout<<vec[i]<<endl;
+    }
+    
+    return 0;
+}
