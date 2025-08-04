@@ -1,0 +1,4 @@
+DEFAULT_DISTANCE_THRESHOLD = 0.5
+DEFAULT_TOP_K = 5
+LOCATION = "us-central1"
+PROJECT_ID = "ultimate-figure-447502-u3"

@@ -1,0 +1,11 @@
+[project]
+name = "mcp-server"
+version = "0.1.0"
+dependencies = [
+    "fastmcp",
+    "arxiv",
+    "requests",      # any other packages you need
+]
+
+[tool.uv]
+python = ">=3.9"     # adjust Python version as needed
